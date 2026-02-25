@@ -421,7 +421,7 @@
                 <div class="editor-title">
                     <i class="fa-solid fa-pen-to-square"></i> Footer Editor
                 </div>
-                <button class="export-btn" onclick="window.print()">
+                <button class="export-btn" onclick="exportPDF()">
                     <i class="fa-solid fa-file-pdf"></i> Export to PDF
                 </button>
             </div>
@@ -733,6 +733,26 @@
 
         // Initial render
         renderFooter();
+
+        // ── Export with validation ───────────────────────────────────────
+        function exportPDF() {
+            const required = [
+                { id: "f-names", label: "Names" },
+                { id: "f-email", label: "Email" },
+                { id: "f-phone", label: "Phone" },
+            ];
+
+            const missing = required.filter(f => !document.getElementById(f.id).value.trim());
+
+            if (missing.length > 0) {
+                const labels = missing.map(f => f.label).join(", ");
+                alert(`Please fill in the required field(s): ${labels}`);
+                document.getElementById(missing[0].id).focus();
+                return;
+            }
+
+            window.print();
+        }
     </script>
 
 </body>
