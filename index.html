@@ -209,6 +209,7 @@
         .hero-section {
             width: 100%;
             height: 250px;
+            flex-shrink: 0;
             margin-bottom: 15px;
             border-radius: 6px;
             border: 1px solid var(--gold);
@@ -392,21 +393,50 @@
         /* =========================================
            PRINT — editor hidden, flyer forced 8.5×11
            ========================================= */
+        @page {
+            size: 8.5in 11in;
+            margin: 0;
+        }
+
         @media print {
             body { padding: 0; background: none; gap: 0; }
             .editor-wrapper { display: none !important; }
             .page-container {
                 width: 8.5in; height: 11in; min-height: 11in; max-width: none;
-                margin: 0; box-shadow: none; padding: 0.35in;
+                margin: 0; box-shadow: none; padding: 0.3in 0.35in 0.5in;
+                zoom: 0.85;
+                overflow: hidden;
             }
-            .main-content { grid-template-columns: 1fr 1fr; }
-            .hero-section { flex-direction: row; height: 250px; }
+
+            /* Layout */
+            .main-content { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .left-column, .right-column { gap: 10px !important; }
+            .panel { padding: 12px; }
+
+            /* Typography — keep at full size, let zoom handle fitting */
+            .section-title { font-size: 13px !important; margin-bottom: 8px; }
+            p, .market-list li, .checklist li, .gauge-subtext,
+            .impact-item div, .metric-box div { font-size: 10px !important; margin-bottom: 6px; }
+
+            /* Hero */
+            .hero-section { flex-direction: row; height: 175px; margin-bottom: 12px; }
             .hero-col-25 { width: 75%; height: 100%; border-right: 1px solid var(--gold); border-bottom: none; }
             .hero-col-75 { width: 25%; height: 100%; }
+
+            /* Returns panel — moderate reduction */
+            .gauge-wrapper { width: 170px; height: 95px; margin: 6px auto; }
+            .gauge-center h2 { font-size: 26px; }
+            .gauge-center .target-label { font-size: 9px; }
+            .gauge-subtext { margin-top: 16px !important; }
+            .return-metrics { gap: 10px; margin-top: 12px; }
+            .return-metrics strong.large-metric { font-size: 26px !important; }
+            .return-metrics span { font-size: 9px !important; }
+
+            /* Metric boxes & checklists */
             .metrics-row { flex-direction: row; }
             .financial-impact { grid-template-columns: 1fr 1fr; }
             .checklist { column-count: 2; }
-            .footer { left: 0.35in; right: 0.35in; bottom: 0.1in; }
+            .footer { left: 0.35in; right: 0.35in; bottom: 0.1in; padding-top: 12px; }
         }
     </style>
 </head>
@@ -525,7 +555,7 @@
                             <i class="fa-solid fa-coins"></i>
                             <div>
                                 <span class="highlight-text">NOI Growth:</span><br>
-                                $829k annual
+                                $829k
                             </div>
                         </div>
                     </div>
@@ -540,25 +570,24 @@
                 </div>
 
                 <div class="panel" style="flex-grow: 1;">
-                    <h2 class="section-title">KANSAS CITY, WYANDOTTE COUNTY SUBMARKET FUNDAMENTALS</h2>
-                    <ul class="market-list">
-                        <li>
-                            <i class="fa-solid fa-house-chimney-window"></i>
-                            <div><span class="highlight-text">High-Velocity Rental Market:</span> 38.4% renter-occupied households (surpassing the U.S. average) creates a deep, permanent pool of demand.</div>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <div><span class="highlight-text">Strengthening Labor Market:</span> Unemployment has dropped to 4.2%, signaling a tight, high-performing workforce.</div>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-gears"></i>
-                            <div><span class="highlight-text">Workforce Anchor:</span> A dominant blue-collar/service backbone (52.6% of employment) ensures steady demand for affordable housing.</div>
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-chart-line"></i>
-                            <div><span class="highlight-text">Income Growth:</span> Median Household Income is projected to grow 8.3% by 2030.</div>
-                        </li>
-                    </ul>
+                    <h2 class="section-title">MASSIVE ECONOMIC DRIVERS</h2>
+
+                    <div class="impact-item" style="margin-top: 5px;">
+                        <i class="fa-solid fa-industry" style="font-size: 18px;"></i>
+                        <div>
+                            <span class="highlight-text">$1 Billion+ Investment Pipeline:</span><br>
+                            Massive capital projects driven by GM, American Royal, Marvin, Kansas City Kansas Community College, and Owens Corning.
+                        </div>
+                    </div>
+
+                    <div class="impact-item" style="margin-top: 15px;">
+                        <i class="fa-solid fa-football" style="font-size: 18px;"></i>
+                        <div>
+                            <span class="highlight-text">Historic Sports Development:</span><br>
+                            The Kansas City Chiefs have announced plans to relocate to a new $3 Billion domed mixed-use stadium in Wyandotte County.
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -635,24 +664,25 @@
                 </div>
 
                 <div class="panel" style="flex-grow: 1;">
-                    <h2 class="section-title">MASSIVE ECONOMIC DRIVERS</h2>
-
-                    <div class="impact-item" style="margin-top: 5px;">
-                        <i class="fa-solid fa-industry" style="font-size: 18px;"></i>
-                        <div>
-                            <span class="highlight-text">$1 Billion+ Investment Pipeline:</span><br>
-                            Massive capital projects driven by GM, American Royal, Marvin, Kansas City Kansas Community College, and Owens Corning.
-                        </div>
-                    </div>
-
-                    <div class="impact-item" style="margin-top: 15px;">
-                        <i class="fa-solid fa-football" style="font-size: 18px;"></i>
-                        <div>
-                            <span class="highlight-text">Historic Sports Development:</span><br>
-                            The Kansas City Chiefs have announced plans to relocate to a new $3 Billion domed mixed-use stadium in Wyandotte County.
-                        </div>
-                    </div>
-
+                    <h2 class="section-title">KANSAS CITY, WYANDOTTE COUNTY SUBMARKET FUNDAMENTALS</h2>
+                    <ul class="market-list">
+                        <li>
+                            <i class="fa-solid fa-house-chimney-window"></i>
+                            <div><span class="highlight-text">High-Velocity Rental Market:</span> 38.4% renter-occupied households (surpassing the U.S. average) creates a deep, permanent pool of demand.</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-briefcase"></i>
+                            <div><span class="highlight-text">Strengthening Labor Market:</span> Unemployment has dropped to 4.2%, signaling a tight, high-performing workforce.</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-gears"></i>
+                            <div><span class="highlight-text">Workforce Anchor:</span> A dominant blue-collar/service backbone (52.6% of employment) ensures steady demand for affordable housing.</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chart-line"></i>
+                            <div><span class="highlight-text">Income Growth:</span> Median Household Income is projected to grow 8.3% by 2030.</div>
+                        </li>
+                    </ul>
                 </div>
 
             </div>
