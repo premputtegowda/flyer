@@ -471,7 +471,7 @@
 
         <div class="header">
             <h1>CAMBRIDGE AT RIVER OAKS</h1>
-            <p>A 230-Unit Multifamily Investment Opportunity | Kansas City, KS | Offered in partnership with Mattanza Capital Partners</p>
+            <p>A 230-Unit Multifamily Investment Opportunity | Kansas City, KS | Offered in partnership with Mattanza Capital</p>
             <div class="header-divider"></div>
         </div>
 
@@ -735,24 +735,38 @@
         renderFooter();
 
         // ── Export with validation ───────────────────────────────────────
+        const REQUIRED_FIELDS = [
+            { id: "f-names", label: "Names" },
+            { id: "f-email", label: "Email" },
+            { id: "f-phone", label: "Phone" },
+        ];
+
+        function getMissingFields() {
+            return REQUIRED_FIELDS.filter(f => !document.getElementById(f.id).value.trim());
+        }
+
         function exportPDF() {
-            const required = [
-                { id: "f-names", label: "Names" },
-                { id: "f-email", label: "Email" },
-                { id: "f-phone", label: "Phone" },
-            ];
-
-            const missing = required.filter(f => !document.getElementById(f.id).value.trim());
-
+            const missing = getMissingFields();
             if (missing.length > 0) {
                 const labels = missing.map(f => f.label).join(", ");
                 alert(`Please fill in the required field(s): ${labels}`);
                 document.getElementById(missing[0].id).focus();
                 return;
             }
-
             window.print();
         }
+
+        // Block Cmd+P / browser print menu if fields are missing
+        window.addEventListener("beforeprint", function(e) {
+            const missing = getMissingFields();
+            if (missing.length > 0) {
+                document.querySelector(".page-container").style.display = "none";
+                setTimeout(() => document.querySelector(".page-container").style.display = "", 0);
+                const labels = missing.map(f => f.label).join(", ");
+                alert(`Please fill in the required field(s): ${labels}`);
+                document.getElementById(missing[0].id).focus();
+            }
+        });
     </script>
 
 </body>
