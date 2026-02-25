@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambridge at River Oaks - OM Flyer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-dark: #161D27;
+            --bg-panel: #1B222C;
+            --gold: #D4AF37;
+            --gold-light: #F3E5AB;
+            --text-light: #E0E6ED;
+            --text-white: #FFFFFF;
+            --gray-accent: #3A4759;
+        }
+
+        /* =========================================
+           PAGE SHELL
+           ========================================= */
+        body {
+            background-color: #2A2A2A;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            gap: 20px;
+        }
+
+        /* =========================================
+           EDITOR PANEL (hidden on print)
+           ========================================= */
+        .editor-wrapper {
+            width: 100%;
+            max-width: 8.5in;
+        }
+
+        .editor-card {
+            background-color: var(--bg-panel);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            border-radius: 8px;
+            padding: 16px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .editor-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .editor-title {
+            color: var(--gold);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .editor-title i { font-size: 14px; }
+
+        .export-btn {
+            background-color: var(--gold);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 5px;
+            padding: 9px 18px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            transition: background-color 0.15s, transform 0.1s;
+        }
+
+        .export-btn:hover { background-color: var(--gold-light); }
+        .export-btn:active { transform: scale(0.97); }
+
+        .editor-fields {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 10px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .field-group label {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .field-group input {
+            background-color: var(--bg-dark);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 4px;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            padding: 7px 9px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .field-group input:focus { border-color: var(--gold); }
+
+        .field-group input::placeholder { color: var(--gray-accent); }
+
+        .editor-hint {
+            margin-top: 10px;
+            font-size: 9px;
+            color: #5A6678;
+            font-weight: 500;
+        }
+
+        .editor-hint i { margin-right: 4px; }
+
+        /* =========================================
+           FLYER PAGE CONTAINER
+           ========================================= */
+        .page-container {
+            width: 100%;
+            max-width: 8.5in;
+            min-height: 11in;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding: 0.35in;
+            padding-bottom: 0.45in;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* =========================================
+           GLOBAL TEXT SIZING
+           ========================================= */
+        p, .header p, .metric-box div, .impact-item div, .checklist li,
+        .market-list li, .gauge-subtext, .return-metrics .impact-item div, .footer {
+            font-size: 10px !important;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            color: var(--gold);
+            font-size: 14px !important;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        strong, .highlight-text {
+            color: var(--text-white);
+            font-weight: 700;
+        }
+
+        /* --- HEADER --- */
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .header h1 {
+            color: var(--gold);
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin: 0 0 3px 0;
+            text-transform: uppercase;
+        }
+
+        .header-divider {
+            height: 1px;
+            background-color: var(--gold);
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        /* --- HERO --- */
+        .hero-section {
+            width: 100%;
+            height: 250px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--gold);
+            overflow: hidden;
+            display: flex;
+            background-color: var(--bg-panel);
+        }
+
+        .hero-col-25 {
+            width: 75%;
+            height: 100%;
+            border-right: 1px solid var(--gold);
+        }
+
+        .hero-col-75 { width: 25%; height: 100%; }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            display: block;
+        }
+
+        .hero-col-25 .hero-image {
+            object-position: right center;
+        }
+
+        .hero-col-75 .hero-image {
+            opacity: 1;
+            object-fit: contain;
+            object-position: center center;
+            filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.95);
+        }
+
+        /* --- MAIN GRID --- */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .panel {
+            background-color: var(--bg-panel);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 6px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metrics-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        .metric-box {
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .metric-box i { color: var(--gold); font-size: 16px; }
+        .metric-box div { margin-bottom: 0 !important; }
+        .metric-box strong { font-size: 10px !important; }
+
+        .financial-impact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 4px;
+            background-color: rgba(0,0,0,0.15);
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+
+        .impact-item {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .impact-item div { margin-bottom: 0 !important; }
+        .impact-item i { color: var(--gold); font-size: 16px; margin-top: 2px; }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 5px 0 0 0;
+            column-count: 2;
+        }
+
+        .checklist li { margin-bottom: 4px !important; display: flex; align-items: center; gap: 5px; }
+        .checklist li i { color: var(--gold); }
+
+        .market-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .market-list li { display: flex; gap: 8px; margin-bottom: 0 !important; }
+        .market-list li i { color: var(--gold); font-size: 14px; min-width: 18px; text-align: center; margin-top: 2px; }
+
+        /* --- GAUGE --- */
+        .returns-panel { text-align: center; }
+        .gauge-wrapper { position: relative; width: 220px; height: 120px; margin: 10px auto; }
+        .gauge-svg { width: 100%; height: 100%; overflow: visible; }
+
+        .gauge-progress {
+            fill: none; stroke: url(#gaugeGradient); stroke-width: 25;
+            stroke-linecap: butt; stroke-dasharray: 54.15 3;
+        }
+
+        .gauge-center { position: absolute; bottom: 5px; left: 0; width: 100%; text-align: center; }
+        .gauge-center h2 {
+            margin: 0; color: var(--text-white); font-size: 32px; font-weight: 700; line-height: 1;
+            position: relative; top: -18px;
+        }
+        .gauge-center .target-label {
+            font-size: 10px; color: var(--text-white); font-weight: 700; letter-spacing: 1px;
+            margin-top: 2px; position: relative; top: 20px;
+        }
+
+        .gauge-subtext { color: #A0ABC0; margin-top: 22px !important; }
+
+        .return-metrics {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left; margin-top: 20px;
+        }
+        .return-metrics .impact-item { align-items: center; }
+        .return-metrics .impact-item i { font-size: 20px; margin-top: 0; }
+        .return-metrics strong.large-metric {
+            color: var(--text-white); font-size: 32px !important; font-weight: 700;
+            line-height: 1; display: block; margin-bottom: 3px;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            position: absolute;
+            bottom: 0.1in;
+            left: 0.35in;
+            right: 0.35in;
+            text-align: center;
+            color: #8892A0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 8px;
+            margin-bottom: 0 !important;
+        }
+
+        /* =========================================
+           RESPONSIVE MOBILE
+           ========================================= */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .editor-fields { grid-template-columns: 1fr 1fr; }
+            .editor-top { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .export-btn { width: 100%; justify-content: center; }
+            .page-container { padding: 15px; padding-bottom: 50px; height: auto; }
+            .main-content { grid-template-columns: 1fr; }
+            .hero-section { flex-direction: column; height: auto; }
+            .hero-col-25, .hero-col-75 { width: 100%; border-right: none; }
+            .hero-col-25 { height: 150px; border-bottom: 1px solid var(--gold); }
+            .hero-col-75 { height: 200px; }
+            .metrics-row { flex-direction: column; }
+            .financial-impact { grid-template-columns: 1fr; }
+            .checklist { column-count: 1; }
+            .footer { left: 15px; right: 15px; bottom: 10px; }
+        }
+
+        /* =========================================
+           PRINT — editor hidden, flyer forced 8.5×11
+           ========================================= */
+        @media print {
+            body { padding: 0; background: none; gap: 0; }
+            .editor-wrapper { display: none !important; }
+            .page-container {
+                width: 8.5in; height: 11in; min-height: 11in; max-width: none;
+                margin: 0; box-shadow: none; padding: 0.35in;
+            }
+            .main-content { grid-template-columns: 1fr 1fr; }
+            .hero-section { flex-direction: row; height: 250px; }
+            .hero-col-25 { width: 75%; height: 100%; border-right: 1px solid var(--gold); border-bottom: none; }
+            .hero-col-75 { width: 25%; height: 100%; }
+            .metrics-row { flex-direction: row; }
+            .financial-impact { grid-template-columns: 1fr 1fr; }
+            .checklist { column-count: 2; }
+            .footer { left: 0.35in; right: 0.35in; bottom: 0.1in; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =====================================================
+         FOOTER EDITOR (hidden when printing / saving PDF)
+         ===================================================== -->
+    <div class="editor-wrapper">
+        <div class="editor-card">
+            <div class="editor-top">
+                <div class="editor-title">
+                    <i class="fa-solid fa-pen-to-square"></i> Footer Editor
+                </div>
+                <button class="export-btn" onclick="window.print()">
+                    <i class="fa-solid fa-file-pdf"></i> Export to PDF
+                </button>
+            </div>
+
+            <div class="editor-fields">
+                <div class="field-group">
+                    <label for="f-names">Names *</label>
+                    <input type="text" id="f-names" placeholder="e.g. John Doe & Jane Smith" required>
+                </div>
+                <div class="field-group">
+                    <label for="f-title">Title</label>
+                    <input type="text" id="f-title" placeholder="e.g. General Partner">
+                </div>
+                <div class="field-group">
+                    <label for="f-email">Email *</label>
+                    <input type="text" id="f-email" placeholder="e.g. info@email.com" required>
+                </div>
+                <div class="field-group">
+                    <label for="f-phone">Phone *</label>
+                    <input type="text" id="f-phone" placeholder="e.g. (555) 123-4567" required>
+                </div>
+                <div class="field-group">
+                    <label for="f-website">Website</label>
+                    <input type="text" id="f-website" placeholder="e.g. www.example.com">
+                </div>
+                <div class="field-group">
+                    <label for="f-year">Year</label>
+                    <input type="text" id="f-year" placeholder="e.g. 2026">
+                </div>
+                <div class="field-group">
+                    <label for="f-company">Company</label>
+                    <input type="text" id="f-company" placeholder="e.g. Swatantra Capital LLC">
+                </div>
+            </div>
+
+            <p class="editor-hint">
+                <i class="fa-solid fa-circle-info"></i>
+                Leave any field blank to hide it from the footer. Changes update the flyer instantly.
+            </p>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         FLYER
+         ===================================================== -->
+    <div class="page-container">
+
+        <div class="header">
+            <h1>CAMBRIDGE AT RIVER OAKS</h1>
+            <p>A 230-Unit Multifamily Investment Opportunity | Kansas City, KS | Offered in partnership with Mattanza Capital Partners</p>
+            <div class="header-divider"></div>
+        </div>
+
+        <div class="hero-section">
+            <div class="hero-col-25">
+                <img class="hero-image" src="cambridge.jpg" alt="Cambridge at River Oaks Building Wide">
+            </div>
+            <div class="hero-col-75">
+                <img class="hero-image" src="map1.jpg" alt="Property Map">
+            </div>
+        </div>
+
+        <div class="main-content">
+
+            <div class="left-column" style="display: flex; flex-direction: column; gap: 15px;">
+
+                <div class="panel">
+                    <h2 class="section-title"><i class="fa-regular fa-compass"></i> THE OPPORTUNITY</h2>
+                    <p>A compelling investment combining meaningful scale, a highly accessible location, and a clear value-add story. Positioned to deliver durable cash flow today and outsized upside tomorrow.</p>
+
+                    <div class="metrics-row">
+                        <div class="metric-box">
+                            <i class="fa-regular fa-building"></i>
+                            <div>Property Size:<br><strong>230 Units</strong></div>
+                        </div>
+                        <div class="metric-box">
+                            <i class="fa-regular fa-handshake"></i>
+                            <div>Financing:<br><strong>Assumable Loan</strong></div>
+                        </div>
+                        <div class="metric-box">
+                            <i class="fa-solid fa-percent"></i>
+                            <div>Rate:<br><strong>3.12% Fixed</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2 class="section-title">THE VALUE-ADD STORY: 15% UPSIDE</h2>
+                    <p>Nearly all units remain in classic condition, providing new ownership with a clean slate to execute a coordinated value-add strategy.</p>
+                    <p style="margin-bottom: 5px;"><span class="highlight-text">The Strategy:</span> Renovate classic interiors to meet demonstrated renter demand.</p>
+
+                    <div class="financial-impact">
+                        <div class="impact-item">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <div>
+                                <span class="highlight-text">Rent Premium:</span><br>
+                                14% Rent Increase / Unit
+                            </div>
+                        </div>
+                        <div class="impact-item">
+                            <i class="fa-solid fa-coins"></i>
+                            <div>
+                                <span class="highlight-text">NOI Growth:</span><br>
+                                $829k annual
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="highlight-text" style="margin-top: 6px; margin-bottom: 2px;">Planned Capital Improvements:</p>
+                    <ul class="checklist">
+                        <li><i class="fa-regular fa-square-check"></i> Roof replacement</li>
+                        <li><i class="fa-regular fa-square-check"></i> Rebuilding 10 units</li>
+                        <li><i class="fa-regular fa-square-check"></i> AC unit replacement</li>
+                        <li><i class="fa-regular fa-square-check"></i> Upgrading pool deck</li>
+                    </ul>
+                </div>
+
+                <div class="panel" style="flex-grow: 1;">
+                    <h2 class="section-title">KANSAS CITY MARKET FUNDAMENTALS</h2>
+                    <ul class="market-list">
+                        <li>
+                            <i class="fa-solid fa-house-chimney-window"></i>
+                            <div><span class="highlight-text">High-Velocity Rental Market:</span> 38.4% renter-occupied households (surpassing the U.S. average) creates a deep, permanent pool of demand.</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-briefcase"></i>
+                            <div><span class="highlight-text">Strengthening Labor Market:</span> Unemployment has dropped to 4.2%, signaling a tight, high-performing workforce.</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-gears"></i>
+                            <div><span class="highlight-text">Workforce Anchor:</span> A dominant blue-collar/service backbone (52.6% of employment) ensures steady demand for affordable housing.</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chart-line"></i>
+                            <div><span class="highlight-text">Income Growth:</span> Median Household Income is projected to grow 8.3% by 2030.</div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="right-column" style="display: flex; flex-direction: column; gap: 15px;">
+
+                <div class="panel returns-panel">
+                    <h2 class="section-title" style="justify-content: center;">PROJECTED INVESTOR RETURNS</h2>
+
+                    <div class="gauge-wrapper">
+                        <svg class="gauge-svg" viewBox="0 0 200 110">
+                            <defs>
+                                <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#3A4759" />
+                                    <stop offset="50%" stop-color="#8C9CAE" />
+                                    <stop offset="100%" stop-color="#D4AF37" />
+                                </linearGradient>
+                            </defs>
+                            <path class="gauge-progress" d="M 10 100 A 90 90 0 0 1 190 100" />
+                            <g transform="translate(100, 100) rotate(54.5)">
+                                <polygon points="-3,0 3,0 0,-85" fill="#E0E6ED"/>
+                                <circle cx="0" cy="0" r="7" fill="#E0E6ED"/>
+                                <circle cx="0" cy="0" r="3" fill="#1B222C"/>
+                            </g>
+                        </svg>
+
+                        <div class="gauge-center">
+                            <h2>17.9%</h2>
+                            <div class="target-label">TARGET IRR</div>
+                        </div>
+                    </div>
+
+                    <div class="gauge-subtext">
+                        (15.9% - 19.9%)<br>
+                        The annualized rate of return over the life of the investment.
+                    </div>
+
+                    <div class="return-metrics">
+                        <div class="impact-item">
+                            <i class="fa-solid fa-coins"></i>
+                            <div>
+                                <strong class="large-metric">8.5%</strong>
+                                <span style="text-transform: uppercase;">Average Cash On Cash</span>
+                            </div>
+                        </div>
+
+                        <div class="impact-item">
+                            <div style="position: relative; min-width: 26px; height: 24px; color: var(--gold);">
+                                <i class="fa-solid fa-percent" style="position: absolute; top: -4px; left: 5px; font-size: 12px; margin: 0;"></i>
+                                <i class="fa-solid fa-hand-holding" style="position: absolute; bottom: 0; left: 0; font-size: 20px; margin: 0;"></i>
+                            </div>
+                            <div>
+                                <strong class="large-metric">7.0%</strong>
+                                <span style="text-transform: uppercase;">LP Preferred Return</span>
+                            </div>
+                        </div>
+
+                        <div class="impact-item">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <div>
+                                <strong class="large-metric">1.6X</strong>
+                                <span style="text-transform: uppercase;">Equity Multiple</span>
+                            </div>
+                        </div>
+
+                        <div class="impact-item">
+                            <i class="fa-solid fa-bullseye"></i>
+                            <div>
+                                <strong class="large-metric">3 Yrs</strong>
+                                <span style="text-transform: uppercase;">Exit Target</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel" style="flex-grow: 1;">
+                    <h2 class="section-title">MASSIVE ECONOMIC DRIVERS</h2>
+
+                    <div class="impact-item" style="margin-top: 5px;">
+                        <i class="fa-solid fa-industry" style="font-size: 18px;"></i>
+                        <div>
+                            <span class="highlight-text">$1 Billion+ Investment Pipeline:</span><br>
+                            Massive capital projects driven by GM, American Royal, Marvin, Kansas City Kansas Community College, and Owens Corning.
+                        </div>
+                    </div>
+
+                    <div class="impact-item" style="margin-top: 15px;">
+                        <i class="fa-solid fa-football" style="font-size: 18px;"></i>
+                        <div>
+                            <span class="highlight-text">Historic Sports Development:</span><br>
+                            The Kansas City Chiefs have announced plans to relocate to a new $3 Billion domed mixed-use stadium in Wyandotte County.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel" style="margin-top: 15px;">
+            <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+
+                <div style="flex: 1; min-width: 200px;">
+                    <h2 class="section-title"><i class="fa-solid fa-handshake"></i> MANAGING PARTNERS</h2>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <img src="mattanza.jpg" alt="Mattanza Capital" style="height: 40px; width: auto; object-fit: contain; border-radius: 3px;">
+                        <div>
+                            <strong style="font-size: 13px; color: var(--text-white); display: block; margin-bottom: 3px;">Mattanza Capital</strong>
+                            <p style="margin: 0; color: var(--text-light);">Experienced real estate private equity firm specializing in value-add multifamily acquisitions across high-growth U.S. markets.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="flex: 1; min-width: 200px; border-left: 1px solid rgba(212,175,55,0.2); padding-left: 30px;">
+                    <h2 class="section-title"><i class="fa-solid fa-users"></i> TEAM</h2>
+                    <p style="margin: 0; color: var(--text-light);">With a combined 65+ years of experience owning and managing over 2,300 units of commercial multifamily property, our team brings the capability, drive, and business acumen to successfully reposition and grow this asset.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer" id="footer"></div>
+
+    </div>
+
+    <script>
+        // ── Default values ──────────────────────────────────────────────
+        const DEFAULTS = {
+            names:   "",
+            title:   "General Partner",
+            email:   "",
+            phone:   "",
+            website: "",
+            year:    "",
+            company: "",
+        };
+
+        const FIELDS = ["names", "title", "email", "phone", "website", "year", "company"];
+
+        // Populate inputs with defaults
+        FIELDS.forEach(key => {
+            const el = document.getElementById(`f-${key}`);
+            if (el) el.value = DEFAULTS[key];
+        });
+
+        // ── Render footer ───────────────────────────────────────────────
+        function renderFooter() {
+            const get = id => document.getElementById(`f-${id}`).value.trim();
+
+            const names   = get("names");
+            const title   = get("title");
+            const email   = get("email");
+            const phone   = get("phone");
+            const website = get("website");
+            const year    = get("year");
+            const company = get("company");
+
+            // Build copyright segment only from non-empty parts
+            const copyrightParts = [year ? `© ${year}` : "", company].filter(Boolean);
+            const copyright = copyrightParts.join(" ");
+
+            // Collect all segments, skipping blanks
+            const segments = [names, title, email, phone, website, copyright].filter(Boolean);
+
+            document.getElementById("footer").textContent = segments.join(" | ");
+        }
+
+        // Live update on every keystroke
+        FIELDS.forEach(key => {
+            document.getElementById(`f-${key}`).addEventListener("input", renderFooter);
+        });
+
+        // Initial render
+        renderFooter();
+    </script>
+
+</body>
+</html>
