@@ -399,44 +399,77 @@
         }
 
         @media print {
-            body { padding: 0; background: none; gap: 0; }
+            body { padding: 0; margin: 0; background: none; gap: 0; display: block; }
             .editor-wrapper { display: none !important; }
+
             .page-container {
-                width: 8.5in; height: 11in; min-height: 11in; max-width: none;
-                margin: 0; box-shadow: none; padding: 0.3in 0.35in 0.5in;
-                zoom: 0.85;
+                width: 8.5in; height: 11in; max-width: none; min-height: unset;
+                margin: 0; box-shadow: none; border-radius: 0;
+                padding: 0.3in 0.35in 0.3in;
                 overflow: hidden;
+                display: flex; flex-direction: column;
             }
 
-            /* Layout */
-            .main-content { grid-template-columns: 1fr 1fr; gap: 12px; }
-            .left-column, .right-column { gap: 10px !important; }
-            .panel { padding: 12px; }
+            /* Header */
+            .header { margin-bottom: 8px; flex-shrink: 0; }
+            .header h1 { font-size: 22px; margin-bottom: 2px; }
+            .header p { font-size: 9px !important; margin-bottom: 4px; }
 
-            /* Typography — keep at full size, let zoom handle fitting */
-            .section-title { font-size: 13px !important; margin-bottom: 8px; }
-            p, .market-list li, .checklist li, .gauge-subtext,
-            .impact-item div, .metric-box div { font-size: 10px !important; margin-bottom: 6px; }
-
-            /* Hero */
-            .hero-section { flex-direction: row; height: 175px; margin-bottom: 12px; }
+            /* Hero — full bleed */
+            .hero-section {
+                flex-direction: row; height: 210px; flex-shrink: 0;
+                margin-bottom: 10px;
+                margin-left: -0.35in; margin-right: -0.35in;
+                width: calc(100% + 0.7in);
+                border-radius: 0; border-left: none; border-right: none;
+            }
             .hero-col-25 { width: 75%; height: 100%; border-right: 1px solid var(--gold); border-bottom: none; }
             .hero-col-75 { width: 25%; height: 100%; }
 
-            /* Returns panel — moderate reduction */
-            .gauge-wrapper { width: 170px; height: 95px; margin: 6px auto; }
+            /* Main grid — fills remaining space */
+            .main-content {
+                grid-template-columns: 1fr 1fr; gap: 10px;
+                flex-grow: 1; align-items: stretch; margin-bottom: 10px;
+            }
+            .left-column, .right-column { gap: 8px !important; }
+            .left-column > div:last-child, .right-column > div:last-child { flex-grow: 1; }
+
+            /* Panels */
+            .panel { padding: 10px; }
+            .section-title { font-size: 11px !important; margin-bottom: 6px; }
+            p, .market-list li, .checklist li, .gauge-subtext,
+            .impact-item div, .metric-box div { font-size: 10.5px !important; line-height: 1.4; margin-bottom: 5px; }
+            .metric-box strong, .highlight-text { font-size: 10.5px !important; }
+
+            /* Returns panel */
+            .gauge-wrapper { width: 160px; height: 90px; margin: 4px auto; }
             .gauge-center h2 { font-size: 26px; }
             .gauge-center .target-label { font-size: 9px; }
-            .gauge-subtext { margin-top: 16px !important; }
-            .return-metrics { gap: 10px; margin-top: 12px; }
-            .return-metrics strong.large-metric { font-size: 26px !important; }
+            .gauge-subtext { margin-top: 14px !important; font-size: 9px !important; }
+            .return-metrics { gap: 8px; margin-top: 8px; }
+            .return-metrics strong.large-metric { font-size: 24px !important; }
             .return-metrics span { font-size: 9px !important; }
+            .return-metrics .impact-item i { font-size: 16px; }
 
-            /* Metric boxes & checklists */
-            .metrics-row { flex-direction: row; }
-            .financial-impact { grid-template-columns: 1fr 1fr; }
+            /* Other */
+            .metrics-row { flex-direction: row; gap: 5px; margin-top: 6px; }
+            .metric-box { padding: 5px; gap: 5px; }
+            .financial-impact { grid-template-columns: 1fr 1fr; gap: 5px; }
             .checklist { column-count: 2; }
-            .footer { left: 0.35in; right: 0.35in; bottom: 0.1in; padding-top: 12px; }
+            .market-list { gap: 5px; }
+
+            /* Managing partners */
+            .page-container > .panel { flex-shrink: 0; margin-top: 0; padding: 8px 10px; }
+            .page-container > .panel .section-title { font-size: 11px !important; }
+            .page-container > .panel p { font-size: 9px !important; margin-bottom: 0; }
+
+            /* Footer */
+            .footer {
+                position: static; flex-shrink: 0;
+                margin-top: 6px; padding-top: 6px;
+                left: unset; right: unset; bottom: unset;
+                font-size: 8px !important;
+            }
         }
     </style>
 </head>
